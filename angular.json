@@ -24,9 +24,27 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/pms-styles.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/AdminLTE.css",
+              "src/_all-skins.min.css",
+              "node_modules/jquery-ui-dist/jquery-ui.min.css",
+              "node_modules/jquery-ui-dist/jquery-ui.css",
+              "node_modules/jquery-ui-dist/jquery-ui.theme.min.css",
+              "node_modules/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.min.css",
+              "node_modules/jquery-timepicker/jquery.timepicker.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "./node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "src/assets/js/app.min.js",
+              "./node_modules/jquery-timepicker/jquery.timepicker.js",
+              "./node_modules/datatables.net/js/jquery.dataTables.js",
+              "./node_modules/jquery-slimscroll/jquery.slimscroll.min.js",
+              "./node_modules/bootstrap-tokenfield/dist/bootstrap-tokenfield.min.js",
+              "./node_modules/bootstrap-timepicker/js/bootstrap-timepicker.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -120,6 +138,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "demoproject"
 }
