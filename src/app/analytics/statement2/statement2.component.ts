@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AnalyticsService } from '../analytics.service';
 
 @Component({
   selector: 'app-statement2',
@@ -6,10 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./statement2.component.css']
 })
 export class Statement2Component implements OnInit {
-
-  constructor() { }
+  a:String[] = []
+  constructor(private analysis:AnalyticsService) { }
 
   ngOnInit() {
+    this.analysis.get_academic_years().subscribe(res=>{
+      this.a = res[]
+    })
+
   }
 
 }
