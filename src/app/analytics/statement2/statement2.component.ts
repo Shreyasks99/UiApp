@@ -12,7 +12,7 @@ export class Statement2Component implements OnInit {
 
   ngOnInit() {
     this.analysis.get_academic_years().subscribe(res=>{
-      this.a = res[]
+      this.a = res['academicyear'];
     })
 
   }

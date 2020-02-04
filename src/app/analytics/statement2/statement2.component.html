@@ -7,11 +7,9 @@
         Academic Year
         <div class="select">
             <select>
-                <option>--Select--</option>
-                <option>Hello 1</option>
-                <option>Hello 2</option>
-                <option>Hello 3</option>
-                <option>Hello 4</option>
+                <option>Select Academic Year</option>
+                <option *ngFor="let year of a">{{year}}</option>
+                
             </select>
             <div class="select_arrow">
             </div>
@@ -21,19 +19,11 @@
         Term
             <div class="select">
                 <select>
-                    <option>--Select--</option>
-                    <option>Hello 1</option>
-                    <option>Hello 2</option>
-                    <option>Hello 3</option>
-                    <option>Hello 4</option>
+                    <option>Select Semester</option>
+                    <option *ngFor="let sem of semester">{{sem}}</option>
                 </select>
-
-                <div class="select_arrow">
-                </div>
             </div>
-
     </td>
-   
     <td>
         <button class="btn"><i class="fa fa-search">Search</i></button>
     </td>
