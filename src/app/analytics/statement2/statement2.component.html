@@ -1,74 +1,38 @@
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div><i class="fa fa-line-chart" aria-hidden="true">Performance Analytics</i></div>
-<div>
-<tr>
-    <td>
-        Academic Year
-        <div class="select">
-            <select>
-                <option>Select Academic Year</option>
-                <option *ngFor="let year of a">{{year}}</option>
-                
-            </select>
-            <div class="select_arrow">
-            </div>
-        </div>
-    </td>
-    <td>
-        Term
-            <div class="select">
-                <select>
+<div class="container">
+    <div class="row">
+        <tr>
+            <td>
+                Academic Year
+                <select [(ngModel)]="SelectedYear">
+                    <option>Select Year</option>
+                    <option *ngFor="let year of a">{{year}}</option>
+                </select>
+            </td>
+            <td>
+                Term
+                <select [(ngModel)]="SelectedSem">
                     <option>Select Semester</option>
                     <option *ngFor="let sem of semester">{{sem}}</option>
                 </select>
-            </div>
-    </td>
-    <td>
-        <button class="btn"><i class="fa fa-search">Search</i></button>
-    </td>
-</tr>
-<hr>
+            </td>
+            <td>
+                <button class="btn"><i class="fa fa-search" (click)="search()">Search</i></button>
+            </td>
+        </tr>
+        <hr>
+    </div>
+    <div *ngIf="columnChart">
+        <google-chart [data]="columnChart"></google-chart>
+    </div>
 </div>
-<style>
-    hr { 
-            position: relative; 
-            top: 1.5px; 
-            border: none; 
-            height: 2px; 
-            background: black; 
-            margin-bottom: 50px;
-    }
-    
-th, td { 
-                width:150px; 
-                text-align:center; 
-                padding:5px;
-                color: rgb(23, 119, 82);
-}
-select {
-        appearance: none;
-        outline: none;
-        background: white;
-        background-image: none;
-        width: 100%;
-        height: 100%;
-        color: black;
-        cursor: pointer;
-        border: 1px solid black;
-        border-radius: 3px;
-    }
-
-    .select {
-        background-color: white;
-        position: relative;
-        display: ruby-base;
-        width: 15em;
-        height: 2em;
-        line-height: 3;
-        overflow: hidden;
-        border-radius: .20em;
-        padding-bottom: 10px;
-
-    }
-</style>
+    <style>
+        th,
+        td {
+            width: 150px;
+            text-align: center;
+            padding: 5px;
+            color: #B03060(23, 119, 82);
+        }
+    </style>

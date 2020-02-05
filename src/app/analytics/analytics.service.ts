@@ -13,5 +13,20 @@ export class AnalyticsService {
       let URL = `${this.url}getAcademicYears`
       return this.http.get(URL)
     }
+
+    getSemester():Observable<any>{
+      let URL = `${this.url}getSemester`   
+      return this.http.get(URL)
+     }
+
+     getUsnByEmail(email):Observable<any>{
+      let URL = `${this.url}getUsn/${email}`   
+      return this.http.get(URL)
+     }
+
+     getStudentAttendance(usn,academic,term):Observable<any>{
+      let URL = `${this.url}getAttendance/${usn}/${academic}/${term}`   
+      return this.http.get(URL)
+     }
    }
 

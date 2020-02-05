@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import {Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DummycomponentComponent } from './dummycomponent/dummycomponent.component';
@@ -20,7 +20,7 @@ import { TokenInterceptor } from './auth/auth.interceptor';
     DummycomponentComponent,
     CommonLeftNavComponent,
     CommonHeaderComponent,
-    LoginComponent
+    LoginComponent,
     
     
   ],
@@ -28,7 +28,9 @@ import { TokenInterceptor } from './auth/auth.interceptor';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    Ng2GoogleChartsModule,
+
 
     
   ],
