@@ -24,7 +24,7 @@
         <hr>
     </div>
     <div *ngIf="columnChart">
-        <google-chart [data]="columnChart"></google-chart>
+        <google-chart [data]="columnChart" (chartSelect)="onChartSelect($event)"></google-chart>
     </div>
 </div>
     <style>

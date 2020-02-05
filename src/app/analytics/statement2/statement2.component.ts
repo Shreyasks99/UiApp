@@ -19,6 +19,7 @@ export class Statement2Component implements OnInit {
   SelectedSem;
   attendance:String[]=[]
   attendancedetails:String[] =[]
+  internalDetails:String[] = []
   constructor(private analysis:AnalyticsService) { }
   ngOnInit() {
     this.analysis.get_academic_years().subscribe(res=>{
@@ -37,17 +38,34 @@ export class Statement2Component implements OnInit {
 
   }
   search(){
+    let data = []
     this.analysis.getStudentAttendance(this.usn,this.SelectedYear,this.SelectedSem).subscribe(res=>{
       this.attendancedetails = res["res"]
-      let data = []
-      data.push(["Subject","Percentage"])
-      for(let attend of this.attendancedetails){
-        data.push([attend["courseName"],attend["perc"]])
-      }
-      console.log(data)
-      this.showColumnChart(data)
     })
+    this.analysis.getStudentInternal(this.usn,this.SelectedYear,this.SelectedSem).subscribe(res=>{
+      this.internalDetails = res["res"]})
+
+      setTimeout(()=>{
+
+        data.push(["Subject","Attendance","Marks"])
+
+        for(let attend of this.attendancedetails){
+          data.push([attend["courseName"],attend["perc"]])
+        }
     
+      
+        let i =1
+        for(let s of this.internalDetails){
+          data[i][2] = s['perc']
+          i++
+        }
+        console.log(data)
+      this.showColumnChart(data)
+
+        
+      }, 5000)
+
+      
   }
   showColumnChart(data){
     this.columnChart={
@@ -55,8 +73,8 @@ export class Statement2Component implements OnInit {
       dataTable:data,
       options:{
         title:'Attendance',
-        width:900,
-        height:400
+        width:1600,
+        height:1000
       }
     }
   }
