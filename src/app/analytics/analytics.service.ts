@@ -38,7 +38,11 @@ export class AnalyticsService {
      getCourseAttendance(course,usn):Observable<any>{
       let URL = `${this.url}getCourseAttendance/${course}/${usn}`   
       return this.http.get(URL)
+     }
 
+     getFacultyId(email):Observable<any>{
+      let URL = `${this.url}getFaculty/${email}`   
+      return this.http.get(URL)
      }
    }
 

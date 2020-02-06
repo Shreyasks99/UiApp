@@ -27,6 +27,8 @@ export class Statement2Component implements OnInit {
   courseAttendance:String[] = []
   present;
   total;
+  u;
+  eid;
   constructor(private analysis:AnalyticsService) { }
   ngOnInit() {
     this.analysis.get_academic_years().subscribe(res=>{
@@ -34,13 +36,16 @@ export class Statement2Component implements OnInit {
     })
     this.email = localStorage.getItem("user")
     this.user = JSON.parse(this.email)
-    console.log(this.SelectedSem)
+    this.u = this.user['roles']
     this.analysis.getSemester().subscribe(res=>{
       this.semester = res['semester']
     })
 
     this.analysis.getUsnByEmail(this.user["user"]).subscribe(res=>{
       this.usn = res["usn"]
+    })
+    this.analysis.getFacultyId(this.user["user"]).subscribe(res=>{
+      this.eid = res["res"]
     })
 
   }
@@ -76,8 +81,6 @@ export class Statement2Component implements OnInit {
   onChartSelect(event:ChartSelectEvent){
      this.UE = event.selectedRowFormattedValues[2]
     this.course = event.selectedRowFormattedValues[0]
-    console.log(this.UE)
-    console.log(this.course)
     this.analysis.getCourseAttendance(this.course,this.usn).subscribe(res=>{
       this.courseAttendance = res["res"]
     })

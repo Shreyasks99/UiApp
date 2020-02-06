@@ -3,23 +3,26 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-            <div class="jumbotron">
-                <h5 class="modal-title" id="exampleModalLabel"><b>University Exam Details</b></h5>
-            </div>
-            <h4><b>Course Name:</b></h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-header" style="background-color: #eeffee;">
+            <h4 class="modal-title-center"><b>Course Details</b></h4>
         </div>
         <div class="modal-body">
-          <h5>Class Attended:{{present}} Class Taken:{{total}}UE:{{UE}}/100</h5>
+            <p><b>Course Name:{{course}}</b></p>
+            <hr>
+            <div class="row">
+                <div class="col-md-3"><B>Class Attended:{{present}}</B></div>
+                <div class="col-md-2"><B>Classes:{{total}}</B></div>
+                <div class="col-md-2"><B>UE:{{UE}}/100</B></div>
+
+            </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">OK</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fas fa-thumbs-up"></i>OK</button>
         </div>
       </div>
     </div>
   </div>
-<div class="container">
+<div class="container" *ngIf="u.includes('STUDENT')">
     <div class="row">
         <tr>
             <td>
@@ -45,6 +48,33 @@
     <div *ngIf="columnChart">
         <google-chart [data]="columnChart" (chartSelect)="onChartSelect($event)" data-toggle="modal" data-target="#exampleModal"></google-chart>
     </div>
+</div>
+<div class="container" *ngIf="u.includes('FACULTY')">
+    <div class="row">
+        <tr>
+            <td>
+                Academic Year
+                <select [(ngModel)]="SelectedYear">
+                    <option>Select Year</option>
+                    <option *ngFor="let year of a">{{year}}</option>
+                </select>
+            </td>
+            <td>
+                Term
+                <select [(ngModel)]="SelectedSem">
+                    <option>Select Semester</option>
+                    <option *ngFor="let sem of semester">{{sem}}</option>
+                </select>
+            </td>
+            <td>
+                <button class="btn" (click)="searchButton()">Search</button>
+            </td>
+        </tr>
+        <hr>
+    </div>
+    <!-- <div *ngIf="columnChart">
+        <google-chart [data]="columnChart" (chartSelect)="onChartSelect($event)" data-toggle="modal" data-target="#exampleModal"></google-chart>
+    </div> -->
 </div>
     <style>
         th,
