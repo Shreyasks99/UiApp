@@ -25,13 +25,20 @@ export class AnalyticsService {
      }
 
      getStudentAttendance(usn,academic,term):Observable<any>{
-      let URL = `${this.url}getAttendance/${usn}/${academic}/${term}`   
+      let URL = `${this.url}getAttendance/${usn}/${academic}/${term}`  
+      console.log(URL) 
       return this.http.get(URL)
      }
 
      getStudentInternal(usn,academic,term):Observable<any>{
       let URL = `${this.url}getInternal/${usn}/${academic}/${term}`   
       return this.http.get(URL)
+     }
+
+     getCourseAttendance(course,usn):Observable<any>{
+      let URL = `${this.url}getCourseAttendance/${course}/${usn}`   
+      return this.http.get(URL)
+
      }
    }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AnalyticsService } from '../analytics.service';
 import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces';
+import { ChartSelectEvent } from 'ng2-google-charts';
 
 @Component({
   selector: 'app-statement2',
@@ -15,11 +16,17 @@ export class Statement2Component implements OnInit {
   email:any;
   user:any;
   usn;
+  title;
   SelectedYear;
   SelectedSem;
   attendance:String[]=[]
   attendancedetails:String[] =[]
   internalDetails:String[] = []
+  UE;
+  course;
+  courseAttendance:String[] = []
+  present;
+  total;
   constructor(private analysis:AnalyticsService) { }
   ngOnInit() {
     this.analysis.get_academic_years().subscribe(res=>{
@@ -59,7 +66,6 @@ export class Statement2Component implements OnInit {
           data[i][2] = s['perc']
           i++
         }
-        console.log(data)
       this.showColumnChart(data)
 
         
@@ -67,14 +73,48 @@ export class Statement2Component implements OnInit {
 
       
   }
+  onChartSelect(event:ChartSelectEvent){
+     this.UE = event.selectedRowFormattedValues[2]
+    this.course = event.selectedRowFormattedValues[0]
+    console.log(this.UE)
+    console.log(this.course)
+    this.analysis.getCourseAttendance(this.course,this.usn).subscribe(res=>{
+      this.courseAttendance = res["res"]
+    })
+    this.present = this.courseAttendance["present"]
+    this.total = this.courseAttendance["total"]
+  }
   showColumnChart(data){
+    this.title = 'Course-wise Attendance %',
     this.columnChart={
       chartType:"ColumnChart",
       dataTable:data,
-      options:{
-        title:'Attendance',
-        width:1600,
-        height:1000
+      options: {
+        bar: { groupWidth: "20%" },
+        vAxis: {
+          title: "Percentage",
+        },
+
+        height: 800,
+        hAxis: {
+          title: "Courses",
+          titleTextStyle: {
+          }
+        },
+        chartArea: {
+          left: 80,
+          right: 100,
+          top: 100,
+        },
+        legend: {
+          position: "top",
+          alignment: "end"
+        },
+        seriesType: "bars",
+        colors: ["#d3ad5d", "#789d96"],
+        fontName: "Times New Roman",
+        fontSize: 13,
+
       }
     }
   }
