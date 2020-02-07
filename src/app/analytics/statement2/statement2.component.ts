@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵConsole } from '@angular/core';
 import { AnalyticsService } from '../analytics.service';
 import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces';
 import { ChartSelectEvent } from 'ng2-google-charts';
@@ -29,6 +29,7 @@ export class Statement2Component implements OnInit {
   total;
   u;
   eid;
+  facultyattend:String[] =[]
   constructor(private analysis:AnalyticsService) { }
   ngOnInit() {
     this.analysis.get_academic_years().subscribe(res=>{
@@ -40,16 +41,19 @@ export class Statement2Component implements OnInit {
     this.analysis.getSemester().subscribe(res=>{
       this.semester = res['semester']
     })
-
+    if(this.u == 'STUDENT'){
     this.analysis.getUsnByEmail(this.user["user"]).subscribe(res=>{
       this.usn = res["usn"]
     })
+  }
+  if(this.u.includes('FACULTY')){
     this.analysis.getFacultyId(this.user["user"]).subscribe(res=>{
       this.eid = res["res"]
     })
-
   }
+}
   search(){
+    if(this.u.includes('STUDENT')){
     let data = []
     this.analysis.getStudentAttendance(this.usn,this.SelectedYear,this.SelectedSem).subscribe(res=>{
       this.attendancedetails = res["res"]
@@ -76,7 +80,15 @@ export class Statement2Component implements OnInit {
         
       }, 5000)
 
-      
+    }
+    if(this.u.includes("FACULTY")){
+      let data = []
+      this.analysis.getFacultyAttendance(this.eid,this.SelectedYear,this.SelectedSem).subscribe(res=>{
+        this.facultyattend = res["res"]
+      })
+      console.log(this.facultyattend)
+
+    } 
   }
   onChartSelect(event:ChartSelectEvent){
      this.UE = event.selectedRowFormattedValues[2]

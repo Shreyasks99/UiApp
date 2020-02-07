@@ -13,7 +13,6 @@
                 <div class="col-md-3"><B>Class Attended:{{present}}</B></div>
                 <div class="col-md-2"><B>Classes:{{total}}</B></div>
                 <div class="col-md-2"><B>UE:{{UE}}/100</B></div>
-
             </div>
         </div>
         <div class="modal-footer">
@@ -72,9 +71,9 @@
         </tr>
         <hr>
     </div>
-    <!-- <div *ngIf="columnChart">
+    <div *ngIf="columnChart">
         <google-chart [data]="columnChart" (chartSelect)="onChartSelect($event)" data-toggle="modal" data-target="#exampleModal"></google-chart>
-    </div> -->
+    </div>
 </div>
     <style>
         th,
