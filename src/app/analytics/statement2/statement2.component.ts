@@ -90,7 +90,6 @@ export class Statement2Component implements OnInit {
       setTimeout(()=>{
 
         data.push(["Course","Attendance"])
-
         for(let attend of this.facultyattend){
           data.push([attend["course"],attend["avg"]])
         }

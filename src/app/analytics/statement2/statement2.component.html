@@ -21,6 +21,27 @@
       </div>
     </div>
   </div>
+  <div class="modal fade" id="example" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #eeffee;">
+            <h4 class="modal-title-center"><b>Course Details</b></h4>
+        </div>
+        <div class="modal-body">
+            <p><b>Course Name:{{course}}</b></p>
+            <hr>
+            <div class="row">
+                <div class="col-md-3"><B>Class Attended:{{present}}</B></div>
+                <div class="col-md-2"><B>Classes:{{total}}</B></div>
+                <div class="col-md-2"><B>UE:{{UE}}/100</B></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fas fa-thumbs-up"></i>OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
 <div class="container" *ngIf="u.includes('STUDENT')">
     <div class="row">
         <tr>
@@ -76,6 +97,9 @@
     </div>
     <div *ngIf="columnChart">
         <google-chart [data]="columnChart" (chartSelect)="onChartSelect($event)" data-toggle="modal" data-target="#exampleModal"></google-chart>
+    </div>
+    <div *ngIf="column">
+        <google-chart [data]="column" (chartSelect)="onChartSelect($event)" data-toggle="modal" data-target="#example"></google-chart>
     </div>
 </div>
     <style>
