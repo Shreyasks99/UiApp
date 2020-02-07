@@ -45,8 +45,8 @@ export class AnalyticsService {
       return this.http.get(URL)
      }
 
-     getFacultyAttendance(name,academic,term):Observable<any>{
-      let URL = `${this.url}getFacultyAttendance/${name}/${academic}/${term}`   
+     getFacultyAttendance(eid,academic,term):Observable<any>{
+      let URL = `${this.url}getFacultyAttendance/${eid}/${academic}/${term}`   
       return this.http.get(URL)
      }
    }

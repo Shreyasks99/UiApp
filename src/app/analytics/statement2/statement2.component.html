@@ -47,6 +47,9 @@
     <div *ngIf="columnChart">
         <google-chart [data]="columnChart" (chartSelect)="onChartSelect($event)" data-toggle="modal" data-target="#exampleModal"></google-chart>
     </div>
+    <div *ngIf="column">
+        <google-chart [data]="column" (chartSelect)="onChartSelect($event)" data-toggle="modal" data-target="#example"></google-chart>
+    </div>
 </div>
 <div class="container" *ngIf="u.includes('FACULTY')">
     <div class="row">
@@ -66,7 +69,7 @@
                 </select>
             </td>
             <td>
-                <button class="btn" (click)="searchButton()">Search</button>
+                <button class="btn" (click)="search()">Search</button>
             </td>
         </tr>
         <hr>

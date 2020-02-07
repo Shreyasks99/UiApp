@@ -10,6 +10,7 @@ import { ChartSelectEvent } from 'ng2-google-charts';
 })
 export class Statement2Component implements OnInit {
   columnChart:GoogleChartInterface
+  column:GoogleChartInterface
   a:String[] = []
   semester:String[] = []
   event;
@@ -86,8 +87,15 @@ export class Statement2Component implements OnInit {
       this.analysis.getFacultyAttendance(this.eid,this.SelectedYear,this.SelectedSem).subscribe(res=>{
         this.facultyattend = res["res"]
       })
-      console.log(this.facultyattend)
+      setTimeout(()=>{
 
+        data.push(["Course","Attendance"])
+
+        for(let attend of this.facultyattend){
+          data.push([attend["course"],attend["avg"]])
+        }
+      this.showColumnChart1(data)
+      }, 5000)
     } 
   }
   onChartSelect(event:ChartSelectEvent){
@@ -102,6 +110,40 @@ export class Statement2Component implements OnInit {
   showColumnChart(data){
     this.title = 'Course-wise Attendance %',
     this.columnChart={
+      chartType:"ColumnChart",
+      dataTable:data,
+      options: {
+        bar: { groupWidth: "20%" },
+        vAxis: {
+          title: "Percentage",
+        },
+
+        height: 800,
+        hAxis: {
+          title: "Courses",
+          titleTextStyle: {
+          }
+        },
+        chartArea: {
+          left: 80,
+          right: 100,
+          top: 100,
+        },
+        legend: {
+          position: "top",
+          alignment: "end"
+        },
+        seriesType: "bars",
+        colors: ["#d3ad5d", "#789d96"],
+        fontName: "Times New Roman",
+        fontSize: 13,
+
+      }
+    }
+  }
+  showColumnChart1(data){
+    this.title = 'Course-wise Attendance %',
+    this.column={
       chartType:"ColumnChart",
       dataTable:data,
       options: {
