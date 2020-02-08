@@ -6,7 +6,7 @@ import { ChartSelectEvent } from 'ng2-google-charts';
 @Component({
   selector: 'app-statement2',
   templateUrl: './statement2.component.html',
-  styleUrls: ['./statement2.component.css']
+  styleUrls: ['./statement2.component.css'],
 })
 export class Statement2Component implements OnInit {
   columnChart:GoogleChartInterface
@@ -30,7 +30,11 @@ export class Statement2Component implements OnInit {
   total;
   u;
   eid;
+  deptName;
   facultyattend:String[] =[]
+  facultyNames:String[]=[]
+  result:String[] = []
+  fname;
   constructor(private analysis:AnalyticsService) { }
   ngOnInit() {
     this.analysis.get_academic_years().subscribe(res=>{
@@ -42,11 +46,13 @@ export class Statement2Component implements OnInit {
     this.analysis.getSemester().subscribe(res=>{
       this.semester = res['semester']
     })
+
     if(this.u == 'STUDENT'){
     this.analysis.getUsnByEmail(this.user["user"]).subscribe(res=>{
       this.usn = res["usn"]
     })
   }
+
   if(this.u.includes('FACULTY')){
     this.analysis.getFacultyId(this.user["user"]).subscribe(res=>{
       this.eid = res["res"]
@@ -82,20 +88,32 @@ export class Statement2Component implements OnInit {
       }, 5000)
 
     }
-    if(this.u.includes("FACULTY")){
+    if(this.u[2] == "HOD") {
+    let patt = new RegExp("[a-zA-z]*");
+    let res = patt.exec(this.eid);
+    this.deptName =res[0];
+    this.analysis.get_dept_faculty(this.deptName).subscribe(res => {
+      this.result = res['res']
+      let i = 0
+      for(let name in this.result[i]['name']){
+        this.facultyNames.push(this.result[i]['name'])
+        i++
+      }
+    })
+    }
+    if(this.u[1] =="FACULTY"){
       let data = []
       this.analysis.getFacultyAttendance(this.eid,this.SelectedYear,this.SelectedSem).subscribe(res=>{
         this.facultyattend = res["res"]
       })
       setTimeout(()=>{
-
         data.push(["Course","Attendance"])
         for(let attend of this.facultyattend){
           data.push([attend["course"],attend["avg"]])
         }
       this.showColumnChart1(data)
       }, 5000)
-    } 
+    }
   }
   onChartSelect(event:ChartSelectEvent){
      this.UE = event.selectedRowFormattedValues[2]
@@ -105,6 +123,10 @@ export class Statement2Component implements OnInit {
     })
     this.present = this.courseAttendance["present"]
     this.total = this.courseAttendance["total"]
+  }
+
+  facultyvalue(event){
+    console.log(event)
   }
   showColumnChart(data){
     this.title = 'Course-wise Attendance %',
@@ -173,5 +195,8 @@ export class Statement2Component implements OnInit {
 
       }
     }
+  }
+  faculty(event){
+    console.log(event )
   }
 }
