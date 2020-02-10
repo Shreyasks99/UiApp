@@ -54,5 +54,15 @@ export class AnalyticsService {
       let URL = `${this.url}getDeptFaculty/${deptName}`   
       return this.http.get(URL)
      }
+
+     get_id_by_name(name):Observable<any>{
+      let URL = `${this.url}getId/${name}`   
+      return this.http.get(URL)
+     }
+
+     getFacultyUE(eid,academic,term):Observable<any>{
+      let URL = `${this.url}getFacultyUE/${eid}/${academic}/${term}`   
+      return this.http.get(URL)
+     }
    }
 
