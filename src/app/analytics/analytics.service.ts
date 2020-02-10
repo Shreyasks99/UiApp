@@ -19,6 +19,11 @@ export class AnalyticsService {
       return this.http.get(URL)
      }
 
+     getBranch():Observable<any>{
+      let URL = `${this.url}getBranch`   
+      return this.http.get(URL)
+     }
+     
      getUsnByEmail(email):Observable<any>{
       let URL = `${this.url}getUsn/${email}`   
       return this.http.get(URL)
@@ -63,6 +68,12 @@ export class AnalyticsService {
      getFacultyUE(eid,academic,term):Observable<any>{
       let URL = `${this.url}getFacultyUE/${eid}/${academic}/${term}`   
       return this.http.get(URL)
+     }
+
+     getFacultyName(deptId):Observable<any>{
+      let URL = `${this.url}getFacultyNameByDeptId/${deptId}`   
+      return this.http.get(URL)
+
      }
    }
 

@@ -16,7 +16,9 @@ export class Statement2Component implements OnInit {
   event;
   email:any;
   user:any;
+  SelectedBranch;
   usn;
+  branch:String[]= []
   title;
   SelectedYear;
   SelectedSem;
@@ -34,10 +36,11 @@ export class Statement2Component implements OnInit {
   facultyattend:String[] =[]
   faculty:String[]=[]
   result:String[] = []
-  fname;
+  fname:String[] = []
   empId;
   facultyatt:String[] = []
   facultyUE:String[] =[]
+  facultyue:String[] = []
   constructor(private analysis:AnalyticsService) { }
   ngOnInit() {
     this.analysis.get_academic_years().subscribe(res=>{
@@ -46,11 +49,9 @@ export class Statement2Component implements OnInit {
     this.email = localStorage.getItem("user")
     this.user = JSON.parse(this.email)
     this.u = this.user['roles']
-    console.log(this.u)
     this.analysis.getSemester().subscribe(res=>{
       this.semester = res['semester']
     })
-
 
     if(this.u == 'STUDENT'){
     this.analysis.getUsnByEmail(this.user["user"]).subscribe(res=>{
@@ -62,6 +63,11 @@ export class Statement2Component implements OnInit {
   if(this.u.includes('FACULTY')){
     this.analysis.getFacultyId(this.user["user"]).subscribe(res=>{
       this.eid = res["res"]
+    })
+  }
+  if(this.u.includes('PRINCIPAL')){
+    this.analysis.getBranch().subscribe(res=>{
+      this.branch = res["branch"]
     })
   }
 }
@@ -94,8 +100,6 @@ export class Statement2Component implements OnInit {
 
     }
 
-
-
     if(this.u[2] == "HOD") {
     let patt = new RegExp("[a-zA-z]*");
     let res = patt.exec(this.eid);
@@ -104,8 +108,8 @@ export class Statement2Component implements OnInit {
       this.faculty = res['res']
     })
     }
-    if(this.u.includes("FACULTY") && this.u.includes('HOD') == false){
-      console.log("hello")
+
+    if(this.u.includes("FACULTY") && this.u.includes('HOD') == false && this.u.includes('PRINCIPAL') == false){
       let data = []
       this.analysis.getFacultyAttendance(this.eid,this.SelectedYear,this.SelectedSem).subscribe(res=>{
         this.facultyattend = res["res"]
@@ -113,7 +117,6 @@ export class Statement2Component implements OnInit {
       this.analysis.getFacultyUE(this.eid,this.SelectedYear,this.SelectedSem).subscribe(res=>{
         this.facultyUE = res['res']
       })
-      console.log(this.facultyattend)
       setTimeout(()=>{
         data.push(["Course","Attendance","UE"])
         for(let attend of this.facultyattend){
@@ -126,6 +129,12 @@ export class Statement2Component implements OnInit {
         }
       this.showColumnChart1(data)
       }, 5000)
+    }
+
+    if(this.u.includes('PRINCIPAL')){
+      this.analysis.getFacultyName(this.SelectedBranch).subscribe(res=>{
+        this.fname = res["res"]
+      })
     }
   }
   onChartSelect(event:ChartSelectEvent){
@@ -209,16 +218,24 @@ export class Statement2Component implements OnInit {
   }
   getAttendanceGraph(eptId){
     let data1 = []
+    console.log(eptId)
       this.analysis.getFacultyAttendance(eptId,this.SelectedYear,this.SelectedSem).subscribe(res=>{
         this.facultyatt = res["res"]
       })
+      this.analysis.getFacultyUE(eptId,this.SelectedYear,this.SelectedSem).subscribe(res=>{
+        this.facultyue = res['res']
+      })
       setTimeout(()=>{
-        data1.push(["Course","Attendance"])
+        data1.push(["Course","Attendance","UE"])
         for(let attend of this.facultyatt){
           data1.push([attend["course"],attend["avg"]])
         }
-      this.showColumnChart1(data1)
+        let i =1
+        for(let s of this.facultyue){
+          data1[i][2] = s['Avg']
+          i++
+        }
+        this.showColumnChart1(data1)
       }, 5000)
-
-  }
+    }
 }

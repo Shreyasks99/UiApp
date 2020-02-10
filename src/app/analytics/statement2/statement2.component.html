@@ -52,7 +52,7 @@
 </div>
 
 
-<div class="container" *ngIf="u.includes('FACULTY') && u.includes('HOD') == false" >
+<div class="container" *ngIf="u.includes('FACULTY') && u.includes('HOD') == false && u.includes('PRINCIPAL') == false" >
     <div class="row">
         <tr>
             <td>
@@ -135,7 +135,7 @@
                 Branch
                 <select [(ngModel)]="SelectedBranch">
                     <option>Select Branch</option>
-                    <option *ngFor="let b of branch"></option>
+                    <option *ngFor="let b of branch">{{b}}</option>
                 </select>
             </td>
             <td>
@@ -151,8 +151,19 @@
         </tr>
         <hr>
     </div>
+    <div class="row">
+        <div class="col-sm-2">
+                <ul *ngFor="let f of fname">
+                    <button class="btn" (click)="getAttendanceGraph(f['empId'])">{{f['name']}}</button>
+                </ul>        
+        </div>
+        <div class="col-sm-10">
+            <div *ngIf="column">
+                <google-chart [data]="column"></google-chart>
+            </div>
+        </div>
+    </div>
 </div>
-
 
     <style>
         th,
