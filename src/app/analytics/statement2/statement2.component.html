@@ -23,6 +23,29 @@
   </div>
 
 
+  <div class="modal fade" id="example1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #eeffee;">
+            <h4 class="modal-title-center"><b>Course Details</b></h4>
+        </div>
+        <div class="modal-body">
+            <p><b>Course Name:{{course}}</b></p>
+            <hr>
+            <div class="row">
+                <div class="col-md-3"><B>Class Taken:{{total}}</B></div>
+                <div class="col-md-4"><B>Attendance %:{{attendanceF}}</B></div>
+                <div class="col-md-4"><B>Average UE:{{UE}}/100</B></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fas fa-thumbs-up"></i>OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 <div class="container" *ngIf="u.includes('STUDENT')">
     <div class="row">
         <div class="col-md-2">
@@ -75,7 +98,7 @@
     </div>
     <div *ngIf="chart_visibility == true">
         <div *ngIf="column">
-            <google-chart [data]="column" (chartSelect)="onChartSelect($event)" data-toggle="modal" data-target="#example"></google-chart>
+            <google-chart [data]="column" (chartSelect)="onChartSelect1($event)" data-toggle="modal" data-target="#example1"></google-chart>
         </div>
     </div>
 </div>
@@ -114,15 +137,11 @@
         <div class="col-sm-10">
             <div *ngIf="chart_visibility == true">
                 <div *ngIf="column">
-                    <google-chart [data]="column"></google-chart>
+                    <google-chart [data]="column" (chartSelect)="onChartSelect1($event)" data-toggle="modal" data-target="#example1"></google-chart>
                 </div>
             </div>
             
         </div>
-        <div *ngIf="error_flag">
-            <p class="error-message">{{error_message}}</p>
-        </div>
-
     </div>
 </div>
 
@@ -164,8 +183,10 @@
                 </ul>        
         </div>
         <div class="col-sm-10">
-            <div *ngIf="column">
-                <google-chart [data]="column"></google-chart>
+            <div *ngIf="chart_visibility == true">
+                <div *ngIf="column">
+                    <google-chart [data]="column" (chartSelect)="onChartSelect1($event)" data-toggle="modal" data-target="#example1"></google-chart>
+                </div>
             </div>
         </div>
     </div>

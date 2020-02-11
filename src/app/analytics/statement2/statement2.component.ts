@@ -36,6 +36,7 @@ export class Statement2Component implements OnInit {
   u;
   eid;
   deptName;
+  coursen;
   facultyattend:String[] =[]
   faculty:String[]=[]
   result:String[] = []
@@ -45,6 +46,7 @@ export class Statement2Component implements OnInit {
   facultyUE:String[] =[]
   facultyue:String[] = []
   error_message:String
+  attendanceF;
   constructor(private analysis:AnalyticsService) { }
   ngOnInit() {
     this.analysis.get_academic_years().subscribe(res=>{
@@ -87,9 +89,7 @@ export class Statement2Component implements OnInit {
       this.internalDetails = res["res"]})
 
       setTimeout(()=>{
-
         data.push(["Subject","Attendance","Marks"])
-
         for(let attend of this.attendancedetails){
           data.push([attend["courseName"],attend["perc"]])
         }
@@ -110,7 +110,7 @@ export class Statement2Component implements OnInit {
           this.error_message = "Data doesnot exist for the entered criteria"
         }
         
-      }, 5000)
+      }, 6000)
 
     }
 
@@ -174,6 +174,19 @@ export class Statement2Component implements OnInit {
       this.total = this.courseAttendance[0]["total"]
       console.log(this.present)
       console.log(this.total)
+    }, 300)
+  }
+
+    onChartSelect1(event:ChartSelectEvent){
+      console.log(event)
+     this.UE = event.selectedRowFormattedValues[2]
+    this.course = event.selectedRowFormattedValues[0]
+    this.attendanceF = event.selectedRowFormattedValues[1]
+    this.analysis.get(this.course).subscribe(res=>{
+      this.coursen = res["res"]
+    })
+    setTimeout(() => {
+      this.total = this.coursen[0]["total"]
     }, 300)
   }
   showColumnChart(data){

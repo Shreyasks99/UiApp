@@ -75,5 +75,10 @@ export class AnalyticsService {
       return this.http.get(URL)
 
      }
+
+     get(course):Observable<any>{
+      let URL = `${this.url}getAttendance/${course}`   
+      return this.http.get(URL)
+     }
    }
 
