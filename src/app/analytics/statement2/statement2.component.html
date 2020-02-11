@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div><i class="fa fa-line-chart" aria-hidden="true">Performance Analytics</i></div>
-<div class="modal fade" id="example" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="example" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header" style="background-color: #eeffee;">
@@ -25,83 +25,84 @@
 
 <div class="container" *ngIf="u.includes('STUDENT')">
     <div class="row">
-        <tr>
-            <td>
-                Academic Year
-                <select [(ngModel)]="SelectedYear">
-                    <option>Select Year</option>
-                    <option *ngFor="let year of a">{{year}}</option>
-                </select>
-            </td>
-            <td>
-                Term
-                <select [(ngModel)]="SelectedSem">
-                    <option>Select Semester</option>
-                    <option *ngFor="let sem of semester">{{sem}}</option>
-                </select>
-            </td>
+        <div class="col-md-2">
+            <mat-label class="labels">Academic Year</mat-label>
+            <mat-select [(ngModel)]="SelectedYear">
+                <mat-option *ngFor="let year of a" [value]="year">{{year}}</mat-option>
+            </mat-select>
+        </div>
+        <div class="col-md-2">
+            <mat-label class="labels">Semesters</mat-label>
+            <mat-select name="terms" [(ngModel)]="SelectedSem">
+                <mat-option *ngFor="let terms of semester" [value]="terms">
+                    Semester - {{terms}}
+                </mat-option>
+            </mat-select>
+        </div>
             <td>
                 <button class="btn" (click)="search()">Search</button>
             </td>
-        </tr>
         <hr>
     </div>
-    <div *ngIf="columnChart">
-        <google-chart [data]="columnChart" (chartSelect)="onChartSelect($event)" data-toggle="modal" data-target="#example"></google-chart>
+    <div *ngIf="chart_visibility == true">
+        <div *ngIf="columnChart">
+            <google-chart [data]="columnChart" (chartSelect)="onChartSelect($event)" data-toggle="modal" data-target="#example"></google-chart>
+        </div>
     </div>
 </div>
 
 
 <div class="container" *ngIf="u.includes('FACULTY') && u.includes('HOD') == false && u.includes('PRINCIPAL') == false" >
     <div class="row">
-        <tr>
-            <td>
-                Academic Year
-                <select [(ngModel)]="SelectedYear">
-                    <option>Select Year</option>
-                    <option *ngFor="let year of a">{{year}}</option>
-                </select>
-            </td>
-            <td>
-                Term
-                <select [(ngModel)]="SelectedSem">
-                    <option>Select Semester</option>
-                    <option *ngFor="let sem of semester">{{sem}}</option>
-                </select>
-            </td>
+        <div class="col-md-2">
+            <mat-label class="labels">Academic Year</mat-label>
+            <mat-select [(ngModel)]="SelectedYear">
+                <mat-option *ngFor="let year of a" [value]="year">{{year}}</mat-option>
+            </mat-select>
+        </div>
+        <div class="col-md-2">
+            <mat-label class="labels">Semesters</mat-label>
+            <mat-select name="terms" [(ngModel)]="SelectedSem">
+                <mat-option *ngFor="let terms of semester" [value]="terms">
+                    Semester - {{terms}}
+                </mat-option>
+            </mat-select>
+        </div>
             <td>
                 <button class="btn" (click)="search()">Search</button>
             </td>
-        </tr>
         <hr>
     </div>
-    <div *ngIf="column">
-        <google-chart [data]="column" (chartSelect)="onChartSelect($event)" data-toggle="modal" data-target="#example"></google-chart>
+    <div *ngIf="chart_visibility == true">
+        <div *ngIf="column">
+            <google-chart [data]="column" (chartSelect)="onChartSelect($event)" data-toggle="modal" data-target="#example"></google-chart>
+        </div>
     </div>
 </div>
 
+<div *ngIf="error_flag">
+    <p class="error-message">{{error_message}}</p>
+</div>
 
 <div class="container" *ngIf="u.includes('HOD')">
     <div class="row">
-        <tr>
-            <td>
-                Academic Year
-                <select [(ngModel)]="SelectedYear">
-                    <option>Select Year</option>
-                    <option *ngFor="let year of a">{{year}}</option>
-                </select>
-            </td>
-            <td>
-                Term
-                <select [(ngModel)]="SelectedSem">
-                    <option>Select Semester</option>
-                    <option *ngFor="let sem of semester">{{sem}}</option>
-                </select>
-            </td>
+        <div class="col-md-2">
+            <mat-label class="labels">Academic Year</mat-label>
+            <mat-select [(ngModel)]="SelectedYear">
+                <mat-option *ngFor="let year of a" [value]="year">{{year}}</mat-option>
+            </mat-select>
+        </div>
+        <div class="col-md-2">
+            <mat-label class="labels">Semesters</mat-label>
+            <mat-select name="terms" [(ngModel)]="SelectedSem">
+                <mat-option *ngFor="let terms of semester" [value]="terms">
+                    Semester - {{terms}}
+                </mat-option>
+            </mat-select>
+        </div>
             <td>
                 <button class="btn" (click)="search()">Search</button>
             </td>
-        </tr>
         <hr>
     </div>
     <div class="row">
@@ -111,44 +112,49 @@
                 </ul>        
         </div>
         <div class="col-sm-10">
-            <div *ngIf="column">
-                <google-chart [data]="column"></google-chart>
+            <div *ngIf="chart_visibility == true">
+                <div *ngIf="column">
+                    <google-chart [data]="column"></google-chart>
+                </div>
             </div>
             
+        </div>
+        <div *ngIf="error_flag">
+            <p class="error-message">{{error_message}}</p>
         </div>
 
     </div>
 </div>
 
 
+
 <div class="container" *ngIf="u.includes('PRINCIPAL')">
     <div class="row">
-        <tr>
-            <td>
-                Academic Year
-                <select [(ngModel)]="SelectedYear">
-                    <option>Select Year</option>
-                    <option *ngFor="let year of a">{{year}}</option>
-                </select>
-            </td>
-            <td>
-                Branch
-                <select [(ngModel)]="SelectedBranch">
-                    <option>Select Branch</option>
-                    <option *ngFor="let b of branch">{{b}}</option>
-                </select>
-            </td>
-            <td>
-                Term
-                <select [(ngModel)]="SelectedSem">
-                    <option>Select Semester</option>
-                    <option *ngFor="let sem of semester">{{sem}}</option>
-                </select>
-            </td>
+        <div class="col-md-2">
+            <mat-label class="labels">Academic Year</mat-label>
+            <mat-select [(ngModel)]="SelectedYear">
+                <mat-option *ngFor="let year of a" [value]="year">{{year}}</mat-option>
+            </mat-select>
+        </div>
+        <div class="col-md-2">
+            <mat-label class="labels">Branch</mat-label>
+            <mat-select name="terms" [(ngModel)]="SelectedBranch">
+                <mat-option *ngFor="let b of branch" [value]="b">
+                    {{b}}
+                </mat-option>
+            </mat-select>
+        </div>
+        <div class="col-md-2">
+            <mat-label class="labels">Semesters</mat-label>
+            <mat-select name="terms" [(ngModel)]="SelectedSem">
+                <mat-option *ngFor="let terms of semester" [value]="terms">
+                    Semester - {{terms}}
+                </mat-option>
+            </mat-select>
+        </div>
             <td>
                 <button class="btn" (click)="search()">Search</button>
             </td>
-        </tr>
         <hr>
     </div>
     <div class="row">
@@ -164,7 +170,9 @@
         </div>
     </div>
 </div>
-
+<div class="spinner" *ngIf="showSpinner">
+    <mat-spinner></mat-spinner>
+</div>
     <style>
         th,
         td {

@@ -20,6 +20,9 @@ export class Statement2Component implements OnInit {
   usn;
   branch:String[]= []
   title;
+  error_flag = false;
+  chart_visibility = false;
+  showSpinner = false;
   SelectedYear;
   SelectedSem;
   attendance:String[]=[]
@@ -41,6 +44,7 @@ export class Statement2Component implements OnInit {
   facultyatt:String[] = []
   facultyUE:String[] =[]
   facultyue:String[] = []
+  error_message:String
   constructor(private analysis:AnalyticsService) { }
   ngOnInit() {
     this.analysis.get_academic_years().subscribe(res=>{
@@ -75,6 +79,7 @@ export class Statement2Component implements OnInit {
   search(){
     if(this.u.includes('STUDENT')){
     let data = []
+    this.showSpinner = true
     this.analysis.getStudentAttendance(this.usn,this.SelectedYear,this.SelectedSem).subscribe(res=>{
       this.attendancedetails = res["res"]
     })
@@ -93,8 +98,17 @@ export class Statement2Component implements OnInit {
           data[i][2] = s['perc']
           i++
         }
-      this.showColumnChart(data)
-
+        if(data.length >1){
+          this.chart_visibility = true
+          this.error_flag = false
+          this.showColumnChart(data)
+        }
+        else{
+          this.showSpinner = false;
+          this.error_flag = true
+          this.chart_visibility = false
+          this.error_message = "Data doesnot exist for the entered criteria"
+        }
         
       }, 5000)
 
@@ -111,6 +125,7 @@ export class Statement2Component implements OnInit {
 
     if(this.u.includes("FACULTY") && this.u.includes('HOD') == false && this.u.includes('PRINCIPAL') == false){
       let data = []
+      this.showSpinner = true
       this.analysis.getFacultyAttendance(this.eid,this.SelectedYear,this.SelectedSem).subscribe(res=>{
         this.facultyattend = res["res"]
       })
@@ -127,7 +142,17 @@ export class Statement2Component implements OnInit {
           data[i][2] = s['Avg']
           i++
         }
-      this.showColumnChart1(data)
+        if(data.length >1){
+          this.chart_visibility = true
+          this.error_flag = false
+          this.showColumnChart1(data)
+        }
+        else{
+          this.showSpinner = false;
+          this.error_flag = true
+          this.chart_visibility = false
+          this.error_message = "Data doesnot exist for the entered criteria"
+        }
       }, 5000)
     }
 
@@ -143,10 +168,16 @@ export class Statement2Component implements OnInit {
     this.analysis.getCourseAttendance(this.course,this.usn).subscribe(res=>{
       this.courseAttendance = res["res"]
     })
-    this.present = this.courseAttendance["present"]
-    this.total = this.courseAttendance["total"]
+    setTimeout(() => {
+      console.log(this.courseAttendance)
+      this.present = this.courseAttendance[0]["present"]
+      this.total = this.courseAttendance[0]["total"]
+      console.log(this.present)
+      console.log(this.total)
+    }, 300)
   }
   showColumnChart(data){
+    this.showSpinner = false
     this.title = 'Course-wise Attendance %',
     this.columnChart={
       chartType:"ColumnChart",
@@ -183,6 +214,7 @@ export class Statement2Component implements OnInit {
 
 
   showColumnChart1(data){
+    this.showSpinner = false
     this.title = 'Course-wise Attendance %',
     this.column={
       chartType:"ColumnChart",
@@ -218,8 +250,8 @@ export class Statement2Component implements OnInit {
   }
   getAttendanceGraph(eptId){
     let data1 = []
-    console.log(eptId)
-      this.analysis.getFacultyAttendance(eptId,this.SelectedYear,this.SelectedSem).subscribe(res=>{
+    this.showSpinner = true
+    this.analysis.getFacultyAttendance(eptId,this.SelectedYear,this.SelectedSem).subscribe(res=>{
         this.facultyatt = res["res"]
       })
       this.analysis.getFacultyUE(eptId,this.SelectedYear,this.SelectedSem).subscribe(res=>{
@@ -235,7 +267,18 @@ export class Statement2Component implements OnInit {
           data1[i][2] = s['Avg']
           i++
         }
-        this.showColumnChart1(data1)
+        if(data1.length >1){
+          this.chart_visibility = true
+          this.error_flag = false
+          this.showColumnChart1(data1)
+        }
+        else{
+          this.showSpinner = false;
+          this.error_flag = true
+          this.chart_visibility = false
+          this.error_message = "Data doesnot exist for the entered criteria"
+        }
+        
       }, 5000)
     }
 }
