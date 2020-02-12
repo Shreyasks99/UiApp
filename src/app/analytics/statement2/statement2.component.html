@@ -130,9 +130,9 @@
     </div>
     <div class="row">
         <div class="col-sm-2">
-                <ul *ngFor="let f of faculty">
-                    <button class="btn"  (click)="getAttendanceGraph(f['employeeGivenId'])">{{f['name']}}</button>
-                </ul>        
+            <button class="mt-4 btn btn-primary btn-md btn-block button-change text-left text-cap" *ngFor="let f of faculty"
+                (click)="getAttendanceGraph(f['employeeGivenId'])">{{f['name']}}
+            </button>        
         </div>
         <div class="col-sm-10">
             <div *ngIf="chart_visibility == true">
@@ -178,9 +178,9 @@
     </div>
     <div class="row">
         <div class="col-sm-2">
-                <ul *ngFor="let f of fname">
-                    <button class="btn" (click)="getAttendanceGraph(f['empId'])">{{f['name']}}</button>
-                </ul>        
+                <button class="mt-4 btn btn-primary btn-md btn-block button-change text-left text-cap" *ngFor="let f of fname"
+                (click)="getAttendanceGraph(f['empId'])">{{f['name']}}
+            </button>          
         </div>
         <div class="col-sm-10">
             <div *ngIf="chart_visibility == true">
