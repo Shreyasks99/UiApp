@@ -165,6 +165,7 @@ export class Statement2Component implements OnInit {
   onChartSelect(event:ChartSelectEvent){
      this.UE = event.selectedRowFormattedValues[2]
     this.course = event.selectedRowFormattedValues[0]
+    if(this.UE && this.course){
     this.analysis.getCourseAttendance(this.course,this.usn).subscribe(res=>{
       this.courseAttendance = res["res"]
     })
@@ -176,6 +177,7 @@ export class Statement2Component implements OnInit {
       console.log(this.total)
     }, 300)
   }
+}
 
     onChartSelect1(event:ChartSelectEvent){
       console.log(event)
